@@ -1,7 +1,7 @@
-# gogen 🔐
+# pwgo 🔐
 a simple, fast cli tool to generate password.
 
 ## How to use:
 ```bash
-./gogen -len 20
+./pwgo -len 7
 ```
