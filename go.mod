@@ -1,3 +1,3 @@
-module gogen
+module pwgo
 
 go 1.25.9
