@@ -29,6 +29,11 @@ func main() {
 		return
 	}
 
+	if *quantityPtr <= 0 {
+		fmt.Println("Invalid quantity: Must be a positive number.")
+		return
+	}
+
 	for i := 0; i < *quantityPtr; i++ {
 		fmt.Println(generatePassword(*lengthPtr))
 	}
