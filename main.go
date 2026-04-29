@@ -11,6 +11,7 @@ const charList = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 
 func generatePassword(length int) string {
 	var stringBuilder strings.Builder
+
 	for i := 0; i < length; i++ {
 		randomIndex := rand.Intn(len(charList))
 		stringBuilder.WriteByte(charList[randomIndex])
@@ -24,13 +25,8 @@ func main() {
 	quantityPtr := flag.Int("quantity", 1, "The amount of passwords.")
 	flag.Parse()
 
-	if *lengthPtr <= 0 {
-		fmt.Println("Invalid length: Must be a positive number.")
-		return
-	}
-
-	if *quantityPtr <= 0 {
-		fmt.Println("Invalid quantity: Must be a positive number.")
+	if *lengthPtr <= 0 || *quantityPtr <= 0 {
+		fmt.Println("[ERROR]: Length / Quantity must be a positive number!")
 		return
 	}
 
