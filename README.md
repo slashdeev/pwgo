@@ -3,5 +3,10 @@ a simple, fast cli tool to generate password.
 
 ## How to use:
 ```bash
-./pwgo -len 7
+./pwgo -len 12
+```
+
+## Help
+```bash
+./pwgo --help
 ```
