@@ -22,13 +22,11 @@ func generatePassword(length int) string {
 func main() {
 	lengthPtr := flag.Int("len", 12, "The length of characters.")
 	flag.Parse()
-	length := *lengthPtr
 
-	if length <= 0 {
+	if *lengthPtr <= 0 {
 		fmt.Println("Invalid length: Must be a positive number.")
 		return
 	}
 
-	password := generatePassword(length)
-	fmt.Println(password)
+	fmt.Println(generatePassword(*lengthPtr))
 }
