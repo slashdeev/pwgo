@@ -1,8 +1,6 @@
 # pwgo 🔐
 a simple, fast cli tool to generate password.
-<img width="1190" height="558" alt="image" src="https://github.com/user-attachments/assets/a75a7dd0-7ba0-4e5a-b037-15629c6fc206" />
 
 ## How to use:
-```bash
-./pwgo -len 12
-```
+<img width="800" height="266" alt="image" src="https://github.com/user-attachments/assets/0f14afd5-3bc9-4c4a-9728-855fb8a11831" />
+
