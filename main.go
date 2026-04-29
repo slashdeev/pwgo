@@ -20,7 +20,8 @@ func generatePassword(length int) string {
 }
 
 func main() {
-	lengthPtr := flag.Int("len", 12, "The length of characters.")
+	lengthPtr := flag.Int("length", 12, "The length of characters.")
+	quantityPtr := flag.Int("quantity", 1, "The amount of passwords.")
 	flag.Parse()
 
 	if *lengthPtr <= 0 {
@@ -28,5 +29,7 @@ func main() {
 		return
 	}
 
-	fmt.Println(generatePassword(*lengthPtr))
+	for i := 0; i < *quantityPtr; i++ {
+		fmt.Println(generatePassword(*lengthPtr))
+	}
 }
