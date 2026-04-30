@@ -31,7 +31,7 @@ func generatePassword(length int, pool string) (string, error) {
 }
 
 func main() {
-	lenghtPtr := flag.Int("len", 12, "The length of characters.")
+	lengthPtr := flag.Int("len", 12, "The length of characters.")
 	quantityPtr := flag.Int("quantity", 5, "The amount of passwords.")
 	symbolsPtr := flag.Bool("symbols", false, "Include special characters.")
 
@@ -42,13 +42,13 @@ func main() {
 		pool += symbols
 	}
 
-	if *lenghtPtr <= 0 || *quantityPtr <= 0 {
+	if *lengthPtr <= 0 || *quantityPtr <= 0 {
 		fmt.Fprintln(os.Stderr, "Length / Quantity must be positive!")
 		os.Exit(1)
 	}
 
 	for i := 0; i < *quantityPtr; i++ {
-		password, err := generatePassword(*lenghtPtr, pool)
+		password, err := generatePassword(*lengthPtr, pool)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Something went wrong while trying to generate the password.")
 			fmt.Fprintln(os.Stderr, err.Error())
