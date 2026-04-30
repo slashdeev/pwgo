@@ -43,15 +43,15 @@ func main() {
 	}
 
 	if *lenghtPtr <= 0 || *quantityPtr <= 0 {
-		fmt.Fprint(os.Stderr, "Length / Quantity must be positive!")
+		fmt.Fprintln(os.Stderr, "Length / Quantity must be positive!")
 		os.Exit(1)
 	}
 
 	for i := 0; i < *quantityPtr; i++ {
 		password, err := generatePassword(*lenghtPtr, pool)
 		if err != nil {
-			fmt.Fprint(os.Stderr, "Something went wrong while trying to generate the password.")
-			fmt.Fprint(os.Stderr, err.Error())
+			fmt.Fprintln(os.Stderr, "Something went wrong while trying to generate the password.")
+			fmt.Fprintln(os.Stderr, err.Error())
 
 			os.Exit(1)
 		}
