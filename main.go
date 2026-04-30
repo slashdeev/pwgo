@@ -17,7 +17,7 @@ const symbols = "!@#$%^&*()-_=+"
 func generatePassword(length int, pool string) (string, error) {
 	var password strings.Builder
 	max := big.NewInt(int64(len(pool)))
-	
+
 	for i := 0; i < length; i++ {
 		number, err := rand.Int(rand.Reader, max)
 		if err != nil {
