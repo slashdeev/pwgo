@@ -1,4 +1,4 @@
-# pwgo 🔐
+# 🔑 pwgo
 `pwgo` is a fast, modern and optimized CLI Tool.
 
 ## 🤔 Why pwgo?
