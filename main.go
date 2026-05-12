@@ -1,3 +1,4 @@
+// `pwgo` is a fast, modern and optimized CLI Tool.
 package main
 
 import (
@@ -9,53 +10,85 @@ import (
 	"strings"
 )
 
-const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const lowercase = "abcdefghijklmnopqrstuvwxyz"
-const numbers = "0123456789"
-const symbols = "!@#$%^&*()-_=+"
+/*
+	[DISCLAIMER]
+	these variables should not be modified, they are safe-
+	to use in some applications.
+*/
 
-func generatePassword(length int, pool string) (string, error) {
-	var password strings.Builder
-	max := big.NewInt(int64(len(pool)))
+const (
+	minimumLength = 5
+	maximumLength = 128
 
-	for i := 0; i < length; i++ {
-		number, err := rand.Int(rand.Reader, max)
-		if err != nil {
-			return "", err
-		}
+	uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	lowercase = "abcdefghijklmnopqrstuvwxyz"
+	numbers   = "0123456789"
+	symbols   = "!@#$%&*"
+)
 
-		password.WriteByte(pool[number.Int64()])
+// `generatePassword` generates a secure password with the given length.
+func generatePassword(passwordLength int, characterPool string) (string, error) {
+	if minimumLength > passwordLength {
+		return "", fmt.Errorf("password length is below minimum. (%d < %d)", passwordLength, minimumLength)
 	}
 
-	return password.String(), nil
+	if maximumLength < passwordLength {
+		return "", fmt.Errorf("password length is above maximum. (%d > %d)", passwordLength, maximumLength)
+	}
+
+	if len(characterPool) == 0 {
+		return "", fmt.Errorf("character pool cannot be empty.")
+	}
+
+	passwordBuilder := strings.Builder{}
+	passwordBuilder.Grow(passwordLength)
+
+	for i := 0; i < passwordLength; i++ {
+		max := len(characterPool)
+		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(max)))
+		if err != nil {
+			return "", fmt.Errorf("failed to generate the random number: %w", err)
+		}
+
+		err = passwordBuilder.WriteByte(characterPool[randomIndex.Int64()])
+		if err != nil {
+			return "", fmt.Errorf("failed to write byte: %w", err)
+		}
+	}
+
+	return passwordBuilder.String(), nil
 }
 
 func main() {
-	lengthPtr := flag.Int("len", 12, "The length of characters.")
-	quantityPtr := flag.Int("quantity", 5, "The amount of passwords.")
-	symbolsPtr := flag.Bool("symbols", false, "Include special characters.")
+	lengthPtr := flag.Int("length", 12, "The length of characters.")
+	quantityPtr := flag.Int("quantity", 1, "The amount of passwords.")
+	symbolsPtr := flag.Bool("symbols", true, "Include special characters.")
 
 	flag.Parse()
 
-	pool := uppercase + lowercase + numbers
+	charactersPool := (uppercase + lowercase + numbers)
+
 	if *symbolsPtr {
-		pool += symbols
+		charactersPool += symbols
 	}
 
-	if *lengthPtr <= 0 || *quantityPtr <= 0 {
-		fmt.Fprintln(os.Stderr, "Length / Quantity must be positive!")
+	if *lengthPtr < minimumLength {
+		fmt.Fprintf(os.Stderr, "password length is below minimum. (%d < %d)", *lengthPtr, minimumLength)
+		os.Exit(1)
+	}
+
+	if *quantityPtr <= 0 {
+		fmt.Fprintf(os.Stderr, "quantity is below minimum. (%d <= %d)", *quantityPtr, 0)
 		os.Exit(1)
 	}
 
 	for i := 0; i < *quantityPtr; i++ {
-		password, err := generatePassword(*lengthPtr, pool)
+		password, err := generatePassword(*lengthPtr, charactersPool)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Something went wrong while trying to generate the password.")
-			fmt.Fprintln(os.Stderr, err.Error())
-
-			os.Exit(1)
+			fmt.Fprintf(os.Stderr, "[%d] something went wrong, continuing...\n", (i + 1))
+			continue
 		}
 
-		fmt.Println(password)
+		fmt.Printf("[%d] %s\n", (i + 1), password)
 	}
 }
