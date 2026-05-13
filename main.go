@@ -62,7 +62,7 @@ func generatePassword(passwordLength int, characterPool string) (string, error) 
 func main() {
 	lengthPtr := flag.Int("length", 12, "The length of characters.")
 	quantityPtr := flag.Int("quantity", 1, "The amount of passwords.")
-	symbolsPtr := flag.Bool("symbols", true, "Include special characters.")
+	symbolsPtr := flag.Bool("symbols", false, "Include special characters.")
 
 	flag.Parse()
 
